@@ -38,7 +38,8 @@ services:
       dockerfile: Dockerfile.oauth
     restart: always
     env_file: .env
-    - FRONTEND_URL=${FRONTEND_URL}
+    environment:
+      - FRONTEND_URL=${FRONTEND_URL}
     networks:
       - web-net
 
