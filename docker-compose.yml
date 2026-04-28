@@ -1,30 +1,38 @@
 services:
   api:
-    image: my-api:latest
+    build:
+      context: ../vg-sales-api
+      dockerfile: Dockerfile
     restart: always
     env_file: .env
     networks:
       - web-net
 
   frontend:
-    image: my-frontend:latest
+    build:
+      context: ../vg-sales-explorer/frontend
+      dockerfile: Dockerfile
     restart: always
     networks:
       - web-net
 
   oauth:
-    image: my-oauth:latest
+    build:
+      context: ../vg-sales-explorer/oauth
+      dockerfile: Dockerfile
     restart: always
+    env_file: .env
     networks:
       - web-net
 
   nginx:
-    image: nginx:latest
+    image: nginx:alpine
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro 
     networks:
       - web-net
     depends_on:
@@ -34,3 +42,4 @@ services:
 
 networks:
   web-net:
+    driver: bridge
