@@ -14,6 +14,7 @@ services:
   api:
     build:
       context: ../vg-sales-api
+      dockerfile: Dockerfile
     restart: always
     env_file: .env
     depends_on:
